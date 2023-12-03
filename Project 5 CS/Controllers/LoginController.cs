@@ -13,25 +13,26 @@ public class LoginController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        return View();
+        return View(new LoginModel());
     }
 
     [HttpPost]
+  
     public IActionResult Index(string username, string password)
     {
         var user = _context.Table.FirstOrDefault(u => u.User == username && u.Password == password);
 
         if (user != null)
         {
-            if (user.AccessLevel == "admin")
+            if (user.AccessLevel == "customer")
             {
-                // Redirect admin to Admin.cs
-                return RedirectToAction("Admin");
+                // Redirect to MusicStore.cshtml for customers
+                return Redirect("~/Login/MusicStore");
             }
-            else if (user.AccessLevel == "customer")
+            else if (user.AccessLevel == "admin")
             {
-                // Redirect customer to MusicStore.cs
-                return RedirectToAction("MusicStore");
+                // Redirect to the admin page for admins
+                return RedirectToAction("Admin", "Admin"); // Example: assuming an AdminController with an Admin action
             }
         }
 
@@ -40,15 +41,10 @@ public class LoginController : Controller
         return View();
     }
 
-    public IActionResult Admin()
+    public IActionResult LoggedIn()
     {
-        // Logic for admin view (Admin.cs)
-        return View("Admin");
+        return View();
     }
 
-    public IActionResult MusicStore()
-    {
-        // Logic for customer view (MusicStore.cs)
-        return View("MusicStore");
-    }
+    // Other actions (Admin, MusicStore, etc.) remain the same
 }

@@ -12,13 +12,14 @@
 <form method="post">
     <div>
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username">
+        <input type="text" id="username" name="username" value="@Model.User">
     </div>
     <div>
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
+        <input type="password" id="password" name="password" value="@Model.Password">
     </div>
     <div>
         <input type="submit" value="Login">
+        <input type="submit" value="Register" name="register">
     </div>
 </form>

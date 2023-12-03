@@ -1,6 +1,82 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+﻿<select id="genreDropdown"></select>
+<select id="performerDropdown"></select>
+<div id="songsGrid"></div>
+<button id="addToCartBtn">Add to Cart</button>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<script>
+    function showError(errorMessage) {
+     
+        var errorDiv = document.createElement('div');
+        errorDiv.textContent = errorMessage;
+        errorDiv.style.color = 'red';
+
+        var songsGrid = document.getElementById('songsGrid');
+        songsGrid.innerHTML = ''; 
+        songsGrid.appendChild(errorDiv);
+    }
+
+    
+    fetch('/MusicStore/GetGenres')
+        .then(response => response.json())
+        .then(data => {
+            var genreDropdown = document.getElementById('genreDropdown');
+            data.forEach(genre => {
+                var option = document.createElement('option');
+                option.value = genre;
+                option.textContent = genre;
+                genreDropdown.appendChild(option);
+            });
+        })
+        .catch(error => {
+            showError('Something went wrong while fetching genres.');
+            console.error('Error:', error);
+        });
+
+   
+    document.getElementById('genreDropdown').addEventListener('change', function () {
+        var genre = this.value;
+        fetch('/MusicStore/GetPerformersByGenre?genre=' + genre)
+            .then(response => response.json())
+            .then(data => {
+                var performerDropdown = document.getElementById('performerDropdown');
+                performerDropdown.innerHTML = '';
+                data.forEach(performer => {
+                    var option = document.createElement('option');
+                    option.value = performer;
+                    option.textContent = performer;
+                    performerDropdown.appendChild(option);
+                });
+            })
+            .catch(error => {
+                showError('Something went wrong while fetching performers.');
+                console.error('Error:', error);
+            });
+    });
+
+    document.getElementById('performerDropdown').addEventListener('change', function () {
+        var performer = this.value;
+        var genre = document.getElementById('genreDropdown').value;
+
+        fetch('/MusicStore/GetSongsByPerformerAndGenre?performer=' + performer + '&genre=' + genre)
+            .then(response => response.json())
+            .then(data => {
+                var songsGrid = document.getElementById('songsGrid');
+                songsGrid.innerHTML = '';
+
+              
+                data.forEach(song => {
+                    var songDiv = document.createElement('div');
+                    songDiv.textContent = song.Title + ' - Price: $' + song.Price; 
+                    songsGrid.appendChild(songDiv);
+                });
+            })
+            .catch(error => {
+                showError('Something went wrong while fetching songs.');
+                console.error('Error:', error);
+            });
+    });
+
+    document.getElementById('addToCartBtn').addEventListener('click', function () {
+       
+    });
+</script>
