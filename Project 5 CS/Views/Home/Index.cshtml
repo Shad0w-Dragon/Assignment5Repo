@@ -1,28 +1,10 @@
-﻿@model List<Project_5_CS.Models.Music>
+﻿
+<html>
+<head>
+    <title>Home Page</title>
+
+</head>
 
 
-<h1>All Songs</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Creator</th>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Genre</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var song in Model)
-        {
-            <tr>
-                <td>@song.Id</td>
-                <td>@song.Creator</td>
-                <td>@song.Title</td>
-                <td>@song.Price</td>
-                <td>@song.Genre</td>
-            </tr>
-        }
-    </tbody>
-</table>
+</html>

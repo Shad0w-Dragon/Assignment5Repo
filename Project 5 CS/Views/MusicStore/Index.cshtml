@@ -1,0 +1,84 @@
+﻿@model List<Project_5_CS.Models.Music>
+
+<html>
+<head>
+    <title>Music Store</title>
+
+</head>
+<body>
+    <div>
+        <h2>Filter by Genre:</h2>
+        <select id="genreFilter">
+            <option value="">All Genres</option>
+            @foreach (var genre in Model.Select(m => m.Genre).Distinct())
+            {
+                <option value="@genre">@genre</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <h2>Filter by Artist:</h2>
+        <select id="artistFilter">
+            <option value="">All Artists</option>
+            @foreach (var artist in Model.Select(m => m.Creator).Distinct())
+            {
+                <option value="@artist">@artist</option>
+            }
+        </select>
+    </div>
+
+    <hr />
+
+    <h2>All Songs</h2>
+    <div id="songsGrid">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Creator</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Genre</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Creator</td>
+                        <td>@item.Title</td>
+                        <td>@item.Price</td>
+                        <td>@item.Genre</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#genreFilter, #artistFilter').change(function () {
+                var selectedGenre = $('#genreFilter').val();
+                var selectedArtist = $('#artistFilter').val();
+                filterSongs(selectedGenre, selectedArtist);
+            });
+
+            function filterSongs(genre, artist) {
+                $('#songsGrid tbody tr').show();
+
+                if (genre !== '') {
+                    $('#songsGrid tbody tr').not(':contains("' + genre + '")').hide();
+                }
+
+                if (artist !== '') {
+                    $('#songsGrid tbody tr').not(':contains("' + artist + '")').hide();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

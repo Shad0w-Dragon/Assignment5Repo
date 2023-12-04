@@ -1,0 +1,61 @@
+﻿@model List<Project_5_CS.Models.Music>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Page</title>
+</head>
+<body>
+    <h1>Admin Page - Music List</h1>
+    <div>
+        <h2>Add New Song</h2>
+        <form method="post" asp-action="AddSong">
+            <label>Creator:</label>
+            <input type="text" name="Creator" required />
+            <label>Title:</label>
+            <input type="text" name="Title" required />
+            <label>Price:</label>
+            <input type="text" name="Price" required />
+            <label>Genre:</label>
+            <input type="text" name="Genre" required />
+            <button type="submit">Add Song</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Remove Song</h2>
+        <form method="post" asp-action="RemoveSong">
+            <label>Song ID:</label>
+            <input type="text" name="SongId" required />
+            <button type="submit">Remove Song</button>
+        </form>
+    </div>
+
+    <hr />
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Creator</th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Genre</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Creator</td>
+                    <td>@item.Title</td>
+                    <td>@item.Price</td>
+                    <td>@item.Genre</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</body>
+</html>

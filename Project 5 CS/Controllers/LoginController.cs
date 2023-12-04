@@ -27,16 +27,16 @@ public class LoginController : Controller
             if (user.AccessLevel == "customer")
             {
                 // Redirect to MusicStore.cshtml for customers
-                return Redirect("~/Login/MusicStore");
+                return Redirect("~/MusicStore/Index");
             }
             else if (user.AccessLevel == "admin")
             {
                 // Redirect to the admin page for admins
-                return RedirectToAction("Admin", "Admin"); // Example: assuming an AdminController with an Admin action
+                return RedirectToAction("Index", "Admin"); 
             }
         }
 
-        // Authentication failed, return to login page with an error message
+      
         ViewBag.Error = "Invalid username or password";
         return View();
     }
